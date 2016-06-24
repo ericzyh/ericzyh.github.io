@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    
+    <meta http-equiv="x-ua-compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+
+    
+    <meta name="author" content="ǧҶ">
+    
+
+    
+
+    
+
+    <title>归档 | ǧҶ�Ĳ�����</title>
+
+    <link rel="stylesheet" href="/stylesheets/style.min.css">
+</head>
+<body>
+<div id="loading">
+    <div id="loading-box">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</div>
+<div id="outer-container">
+    <nav id="navbar">
+        <ul id="site-menu" class="list-inline">
+            
+            
+                <li><a href="/">首页</a></li>
+            
+            
+            
+                <li><a href="/tags">标签</a></li>
+            
+            
+            
+                <li><a href="/archives">归档</a></li>
+            
+            
+            
+                <li><a href="/about">关于</a></li>
+            
+            
+        </ul>
+    </nav>
+
+    
+    <header id="masthead" class="container">
+        
+        <h1 id="page-title">归档</h1>
+        
+
+        
+    </header>
+    
+
+    <main>
+    <div class="content-wrap">
+
+        <div id="archive-list" class="container">
+            <p id="archive-total-num">共有 1 篇文章</p>
+
+            <div id="archive-list-inner-box">
+                
+                
+                
+
+                
+                
+
+                
+
+                
+
+                
+                </ul></section>
+                <section data-link="year-2016" class="section-year">
+                    <h2>2016年</h2>
+                    <ul class="list-unstyled">
+                        <li><a href="/2016/06/24/hello-world/">
+                                <time>06-24</time> Hello World</a></li>
+                        
+                        
+            </div>
+
+            <p id="time-line-end">没有更多啦！</p>
+
+            <nav id="archive-year-nav">
+                <ul class="list-unstyled">
+                    
+                    <li class="year-navs" data-link="year-2016">2016</li>
+                    
+                </ul>
+            </nav>
+        </div>
+    </div>
+</main>
+
+<script type="text/javascript">
+    (function () {
+        /** 年份导航 */
+        var nav = {
+            elements: {
+                scrollContainer: document.getElementById('outer-container'),
+                section: document.getElementsByClassName('section-year'),
+                navContainer: document.getElementById('archive-year-nav'),
+                navLinks: document.getElementsByClassName('year-navs')
+            },
+            data: {
+                activeLink: null, // 保存当前激活年份的元素
+                sectionTop: [], // 保存每个年分到顶部的距离
+                navContainerTop: getElementTop(document.getElementById('archive-year-nav'))
+            },
+            init: function () {
+                //统计每个年份的包裹容器离文档顶部的距离
+                var sectionLength = nav.elements.section.length;
+                for (var i = 0; i < sectionLength; i++) {
+                    nav.data.sectionTop.push(getElementTop(nav.elements.section[i]) - 80); // 在顶部预留50px的空间
+                }
+
+                nav.setNavActive();
+                nav.setNavPosition();
+                nav.navJump();
+
+                nav.elements.scrollContainer.addEventListener("scroll", function () {
+                    nav.setNavActive();
+                    nav.setNavPosition();
+                });
+            },
+            setNavActive: function () {
+                var top = nav.elements.scrollContainer.scrollTop,
+                        sectionTopLength = nav.data.sectionTop.length;
+
+                if (top < nav.data.sectionTop[0]) {
+                    nav.updateActiveEle(nav.elements.navLinks[0]);
+                }
+                else {
+                    for (var i = sectionTopLength; i >= 0; i--) {
+                        if (nav.data.sectionTop[i] <= top && (nav.data.sectionTop[i] + nav.elements.section[i].clientHeight) > top) {
+                            nav.updateActiveEle(nav.elements.navLinks[i]);
+                        }
+                    }
+                }
+            },
+            setNavPosition: function () {
+                // 设置导航容器的固定状态
+                if (nav.data.navContainerTop - nav.elements.scrollContainer.scrollTop < 150) {
+                    if (nav.elements.navContainer.className.search("fixed") === -1) {
+                        nav.elements.navContainer.className += " fixed";
+                        nav.elements.navContainer.style.right = nav.elements.navContainer.parentElement.offsetLeft + 14 + "px";
+                    }
+                }
+                else {
+                    nav.elements.navContainer.className = nav.elements.navContainer.className.replace(/ ?fixed/, "");
+                    nav.elements.navContainer.style.right = "0";
+                }
+            },
+            updateActiveEle: function (newEle) {
+                if (newEle.className.search("active") == -1) {
+                    var activePop = nav.data.activeLink;
+                    if (activePop) {
+                        activePop.className = activePop.className.replace(/ ?active/, "");
+                    }
+                    nav.data.activeLink = newEle;
+                    newEle.className += " active";
+                }
+            },
+            navJump: function () {
+                var navLinkLength = nav.elements.navLinks.length;
+                for (var i = 0; i < navLinkLength; i++) {
+                    nav.elements.navLinks[i].getElementTop = nav.data.sectionTop[i];
+                    nav.elements.navLinks[i].addEventListener("click", function () {
+                        page.scrollTo(this.getElementTop);
+                        nav.updateActiveEle(this);
+                    });
+                }
+            }
+        }
+
+        nav.init();
+
+        function getElementTop(element) {
+            var toDocTop = element.offsetTop;
+            var parentEle = element.offsetParent;
+
+            while (parentEle !== null) {
+                toDocTop += parentEle.offsetTop;
+                parentEle = parentEle.offsetParent;
+            }
+
+            return toDocTop;
+        }
+    }())
+</script>
+
+
+    <button id="back-to-top" class="hide"><span></span></button>
+
+    <footer id="mastfoot">
+        <p>Powered by <a href="http://www.hexo.io" target="_blank">hexo</a>, <a href="https://github.com/geekwen/hexo-theme-Quiet" target="_blank">theme</a> by <a href="http://geekwen.com">Geekwen</a>. <a href="http://geekwen.com/atom.xml">RSS</a></p>
+        <p>Since 2015</p>
+    </footer>
+</div>
+<script src="/script/common.js"></script>
+</body>
+</html>
