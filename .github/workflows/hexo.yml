@@ -11,6 +11,6 @@ jobs:
       - uses: actions/checkout@v1
       - uses: ericzyh/github-actions-hexo@master
         with:
-          deploykey: ${{secrets.GITHUB_TOKEN}}
+          deploykey: ${{secrets.ACTIONS_DEPLOY_KEY }}
           username: zhaoyuhao
           email: 8040334@qq.com
